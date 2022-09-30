@@ -1,6 +1,6 @@
 const dotenv = require('dotenv');
-const { ACCOUNT_SID } = require('./Twilio');
-
 dotenv.config();
 
-console.log(ACCOUNT_SID);
+const { PHONE_NUMBER } = require('./Twilio');
+
+console.log(PHONE_NUMBER);
