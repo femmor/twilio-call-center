@@ -3,12 +3,11 @@ dotenv.config();
 const express = require('express');
 const cors = require('cors');
 const morgan = require('morgan');
-
-// Service tokens
-const { PHONE_NUMBER } = require('./Twilio');
+const twilio = require('./Twilio');
 
 // Initialize the app
 const app = express();
+const client = twilio.instance;
 
 // Middleware
 app.use(cors());
@@ -17,8 +16,13 @@ app.use(express.json());
 app.use(morgan('dev'));
 
 // Routes
-app.get('/login', (req, res) => {
-  res.send('Login');
+app.get('/login', async (req, res) => {
+  try {
+    const data = await client.sendVerifyAsync(process.env.MOBILE, 'sms');
+    res.send(data);
+  } catch (error) {
+    console.log(error.message);
+  }
 });
 
 app.get('/verify', (req, res) => {
