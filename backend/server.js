@@ -17,8 +17,12 @@ app.use(express.json());
 app.use(morgan('dev'));
 
 // Routes
-app.get('/home', (req, res) => {
-  res.send('Welcome to Twilio!');
+app.get('/login', (req, res) => {
+  res.send('Login');
+});
+
+app.get('/verify', (req, res) => {
+  res.send('Verify code');
 });
 
 const PORT = process.env.PORT || 5000;
