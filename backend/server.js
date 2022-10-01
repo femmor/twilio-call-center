@@ -17,6 +17,7 @@ app.use(morgan('dev'));
 
 // Routes
 app.get('/login', async (req, res) => {
+  // Receive verification code from twilio
   try {
     const data = await client.sendVerifyAsync(process.env.MOBILE, 'sms');
     res.send(data);
@@ -25,8 +26,17 @@ app.get('/login', async (req, res) => {
   }
 });
 
-app.get('/verify', (req, res) => {
-  res.send('Verify code');
+app.get('/verify', async (req, res) => {
+  // Send back verification code from twilio
+  try {
+    const data = await client.verifyCodeAsync(
+      process.env.MOBILE,
+      req.query.code
+    );
+    res.send(data);
+  } catch (error) {
+    console.log(error);
+  }
 });
 
 const PORT = process.env.PORT || 5000;
