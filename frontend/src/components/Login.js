@@ -1,6 +1,22 @@
 import { Container, Row, Col, Form, Button } from 'react-bootstrap';
 
-const Login = () => {
+const Login = ({ user, setUser }) => {
+  const { username, mobileNumber } = user;
+
+  const populateFields = e => {
+    const { name, value } = e.target;
+
+    setUser(draft => {
+      draft[name] = value;
+    });
+  };
+
+  const handleSubmit = e => {
+    e.preventDefault();
+
+    console.log(user);
+  };
+
   return (
     <Container
       fluid
@@ -15,12 +31,24 @@ const Login = () => {
             <h3 className="form-container-heading text-center my-3">
               Login into your account
             </h3>
-            <Form>
+            <Form onSubmit={handleSubmit}>
               <Form.Group className="mb-3">
-                <Form.Control type="text" placeholder="Username" />
+                <Form.Control
+                  type="text"
+                  placeholder="Username"
+                  name="username"
+                  value={username}
+                  onChange={e => populateFields(e)}
+                />
               </Form.Group>
               <Form.Group className="mb-3">
-                <Form.Control type="text" placeholder="Mobile Number" />
+                <Form.Control
+                  type="text"
+                  placeholder="Mobile Number"
+                  name="mobileNumber"
+                  value={mobileNumber}
+                  onChange={e => populateFields(e)}
+                />
               </Form.Group>
 
               <Button
