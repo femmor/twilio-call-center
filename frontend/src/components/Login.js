@@ -1,6 +1,6 @@
 import { Container, Row, Col, Form, Button } from 'react-bootstrap';
 
-const Login = ({ user, setUser }) => {
+const Login = ({ user, setUser, sendSmsCode }) => {
   const { username, mobileNumber } = user;
 
   const populateFields = e => {
@@ -14,7 +14,7 @@ const Login = ({ user, setUser }) => {
   const handleSubmit = e => {
     e.preventDefault();
 
-    console.log(user);
+    sendSmsCode();
   };
 
   return (
