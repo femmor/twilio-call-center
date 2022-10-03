@@ -16,10 +16,11 @@ app.use(express.json());
 app.use(morgan('dev'));
 
 // Routes
-app.get('/login', async (req, res) => {
+app.post('/login', async (req, res) => {
   // Receive verification code from twilio
+  const { to, username, channel } = req.body;
   try {
-    const data = await client.sendVerifyAsync(process.env.MOBILE, 'sms');
+    const data = await client.sendVerifyAsync(to, channel);
     res.send(data);
   } catch (error) {
     console.log(error.message);

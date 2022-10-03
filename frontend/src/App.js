@@ -17,10 +17,11 @@ const App = () => {
       const response = await axios.post('/login', {
         to: mobileNumber,
         username,
+        channel: 'sms',
       });
       console.log(response);
     } catch (err) {
-      console.log(err);
+      console.log(err.message);
     }
   };
 
