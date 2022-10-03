@@ -1,7 +1,11 @@
+import Login from './components/Login';
+
+import './App.css';
+
 const App = () => {
   return (
     <div className="App">
-      <h1>Call Central</h1>
+      <Login />
     </div>
   );
 };
