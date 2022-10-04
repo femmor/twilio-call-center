@@ -12,3 +12,8 @@
 .form-container-heading {
   color: teal;
 }
+
+.tel-input input {
+  border: none;
+  outline: none;
+}
