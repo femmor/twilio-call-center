@@ -3,11 +3,19 @@ dotenv.config();
 const express = require('express');
 const cors = require('cors');
 const morgan = require('morgan');
+const http = require('http');
+const socketIo = require('socket.io');
 const twilio = require('./Twilio');
 
 // Initialize the app
 const app = express();
+const server = http.createServer(app);
+const socket = socketIo(server);
 const client = twilio.instance;
+
+socket.on('connection', socket => {
+  console.log('Socket connected', socket);
+});
 
 // Middleware
 app.use(cors());
@@ -41,6 +49,6 @@ app.post('/verify', async (req, res) => {
 
 const PORT = process.env.PORT || 5000;
 
-app.listen(PORT, () => {
+server.listen(PORT, () => {
   console.log(`Server running on port ${PORT}`);
 });
