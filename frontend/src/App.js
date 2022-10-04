@@ -1,10 +1,21 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import Login from './components/Login';
 
 import './App.css';
 import axios from './utils/axios';
+import { socket } from './utils/socketio';
 
 const App = () => {
+  useEffect(() => {
+    socket.on(
+      'disconnected',
+      () => {
+        console.log('Socket disconnected');
+      },
+      []
+    );
+  });
+
   const [user, setUser] = useState({
     username: '',
     mobileNumber: '',

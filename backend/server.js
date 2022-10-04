@@ -14,7 +14,11 @@ const socket = socketIo(server);
 const client = twilio.instance;
 
 socket.on('connection', socket => {
-  console.log('Socket connected', socket);
+  console.log('Socket connected', socket.id);
+});
+
+socket.on('disconnect', socket => {
+  console.log('Socket disconnected');
 });
 
 // Middleware
