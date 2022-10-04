@@ -1,7 +1,6 @@
-import { useState } from 'react';
 import { Container, Row, Col, Form, Button } from 'react-bootstrap';
 
-const Login = ({ user, setUser, sendSmsCode }) => {
+const Login = ({ user, setUser, sendSmsCode, sendVerificationCode }) => {
   const populateFields = e => {
     const { name, value } = e.target;
 
@@ -11,10 +10,16 @@ const Login = ({ user, setUser, sendSmsCode }) => {
     });
   };
 
-  const handleSubmit = e => {
+  const handleVerification = e => {
     e.preventDefault();
 
     sendSmsCode();
+  };
+
+  const handleSendCode = e => {
+    e.preventDefault();
+
+    sendVerificationCode();
   };
 
   return (
@@ -31,7 +36,11 @@ const Login = ({ user, setUser, sendSmsCode }) => {
             <h3 className="form-container-heading text-center my-3">
               {user.verificationSent ? 'Enter Code' : 'Login into your account'}
             </h3>
-            <Form onSubmit={handleSubmit}>
+            <Form
+              onSubmit={
+                user.verificationSent ? handleSendCode : handleVerification
+              }
+            >
               {!user.verificationSent && (
                 <>
                   <Form.Group className="mb-3">

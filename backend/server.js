@@ -27,13 +27,12 @@ app.post('/login', async (req, res) => {
   }
 });
 
-app.get('/verify', async (req, res) => {
+app.post('/verify', async (req, res) => {
   // Send back verification code from twilio
+  const { to, code } = req.body;
+
   try {
-    const data = await client.verifyCodeAsync(
-      process.env.MOBILE,
-      req.query.code
-    );
+    const data = await client.verifyCodeAsync(to, code);
     res.send(data);
   } catch (error) {
     console.log(error);

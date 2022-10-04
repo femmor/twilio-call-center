@@ -31,9 +31,26 @@ const App = () => {
     }
   };
 
+  const sendVerificationCode = async () => {
+    try {
+      const response = await axios.post('/verify', {
+        to: user.mobileNumber,
+        code: user.verificationCode,
+      });
+      console.log(response);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   return (
     <div className="App">
-      <Login user={user} setUser={setUser} sendSmsCode={sendSmsCode} />
+      <Login
+        user={user}
+        setUser={setUser}
+        sendSmsCode={sendSmsCode}
+        sendVerificationCode={sendVerificationCode}
+      />
     </div>
   );
 };
