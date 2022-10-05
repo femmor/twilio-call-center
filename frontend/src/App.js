@@ -6,6 +6,7 @@ import axios from './utils/axios';
 import { socket } from './utils/socketio';
 
 const App = () => {
+  const [token, setToken] = useState('');
   const [user, setUser] = useState({
     username: '',
     mobileNumber: '',
@@ -46,7 +47,8 @@ const App = () => {
         code: user.verificationCode,
         username: user.username,
       });
-      console.log(response);
+      console.log('Received token:', response.data.token);
+      setToken(response.data.token);
     } catch (error) {
       console.log(error);
     }
