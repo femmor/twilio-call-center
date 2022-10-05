@@ -6,22 +6,19 @@ import axios from './utils/axios';
 import { socket } from './utils/socketio';
 
 const App = () => {
-  useEffect(() => {
-    socket.on(
-      'disconnected',
-      () => {
-        console.log('Socket disconnected');
-      },
-      []
-    );
-  });
-
   const [user, setUser] = useState({
     username: '',
     mobileNumber: '',
     verificationCode: '',
     verificationSent: false,
   });
+
+  useEffect(() => {
+    socket.on('disconnected', () => {
+      console.log('Socket disconnected');
+    });
+    return () => {};
+  }, []);
 
   const sendSmsCode = async () => {
     try {

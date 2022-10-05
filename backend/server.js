@@ -10,22 +10,21 @@ const twilio = require('./Twilio');
 // Initialize the app
 const app = express();
 const server = http.createServer(app);
-const socket = socketIo(server);
+const io = socketIo(server);
 const client = twilio.instance;
-
-socket.on('connection', socket => {
-  console.log('Socket connected', socket.id);
-});
-
-socket.on('disconnect', socket => {
-  console.log('Socket disconnected');
-});
 
 // Middleware
 app.use(cors());
 app.options('*', cors());
 app.use(express.json());
 app.use(morgan('dev'));
+
+io.on('connection', socket => {
+  console.log('Socket connected', socket.id);
+  socket.on('disconnect', () => {
+    console.log('Socket disconnected', socket.id);
+  });
+});
 
 // Routes
 app.post('/login', async (req, res) => {
