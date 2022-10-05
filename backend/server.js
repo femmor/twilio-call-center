@@ -5,6 +5,7 @@ const cors = require('cors');
 const morgan = require('morgan');
 const http = require('http');
 const socketIo = require('socket.io');
+const jwt = require('./utils/jwt');
 const twilio = require('./Twilio');
 
 // Initialize the app
@@ -20,7 +21,6 @@ app.use(express.json());
 app.use(morgan('dev'));
 
 io.on('connection', socket => {
-  console.log('Socket connected', socket.id);
   socket.on('disconnect', () => {
     console.log('Socket disconnected', socket.id);
   });
@@ -32,7 +32,7 @@ app.post('/login', async (req, res) => {
   const { to, username, channel } = req.body;
   try {
     const data = await client.sendVerifyAsync(to, channel);
-    res.send(data);
+    res.send('Sent code');
   } catch (error) {
     console.log(error.message);
   }
@@ -40,11 +40,15 @@ app.post('/login', async (req, res) => {
 
 app.post('/verify', async (req, res) => {
   // Send back verification code from twilio
-  const { to, code } = req.body;
+  const { to, code, username } = req.body;
 
   try {
     const data = await client.verifyCodeAsync(to, code);
-    res.send(data);
+    if (data.status === 'approved') {
+      const token = jwt.createJwt(username);
+      return res.send({ token });
+    }
+    res.status(401).send('invalid token');
   } catch (error) {
     console.log(error);
   }

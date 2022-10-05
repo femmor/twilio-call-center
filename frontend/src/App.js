@@ -44,6 +44,7 @@ const App = () => {
       const response = await axios.post('/verify', {
         to: user.mobileNumber,
         code: user.verificationCode,
+        username: user.username,
       });
       console.log(response);
     } catch (error) {
